@@ -14,7 +14,7 @@ import com.nullcorporation.courseSpringNA.services.UserService;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UserResouce {
+public class UserResource {
 	
 	@Autowired
 	private UserService service;
