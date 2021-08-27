@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -21,7 +23,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_order")
@@ -30,20 +31,31 @@ public class Order implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter @Setter private Long id;
+	@Getter
+	@Setter
+	private Long id;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-	@Getter @Setter private Instant moment;
-	
+	@Getter
+	@Setter
+	private Instant moment;
+
 	private Integer orderStatus;
 
 	@ManyToOne
 	@JoinColumn(name = "client_id")
-	@Getter @Setter private User client;
+	@Getter
+	@Setter
+	private User client;
 
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
-	
+
+	@Getter
+	@Setter
+	@OneToOne(mappedBy = "order", cascade =  CascadeType.ALL)
+	private Payment payment;
+
 	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
@@ -51,22 +63,21 @@ public class Order implements Serializable {
 		setOrderStatus(orderStatus);
 		this.client = client;
 	}
-	
-	
+
 	public OrderStatus getOrderStatus() {
 		return OrderStatus.valueOf(orderStatus);
 	}
-	
+
 	public void setOrderStatus(OrderStatus orderStatus) {
-		if(orderStatus != null) {
+		if (orderStatus != null) {
 			this.orderStatus = orderStatus.getCode();
 		}
 	}
-	
-	public Set<OrderItem>getItems(){
+
+	public Set<OrderItem> getItems() {
 		return items;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -91,8 +102,5 @@ public class Order implements Serializable {
 			return false;
 		return true;
 	}
-
-
-
 
 }
