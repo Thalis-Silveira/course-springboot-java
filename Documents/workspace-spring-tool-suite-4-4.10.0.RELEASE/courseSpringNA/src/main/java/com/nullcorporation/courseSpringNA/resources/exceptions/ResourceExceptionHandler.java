@@ -13,7 +13,7 @@ import com.nullcorporation.courseSpringNA.services.exceptions.DataBaseException;
 import com.nullcorporation.courseSpringNA.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
-public class ResourceExceprionHandler {
+public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request){
