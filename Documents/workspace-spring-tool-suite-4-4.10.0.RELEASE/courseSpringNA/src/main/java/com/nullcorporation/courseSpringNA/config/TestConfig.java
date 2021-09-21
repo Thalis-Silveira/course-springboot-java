@@ -20,7 +20,7 @@ import com.nullcorporation.courseSpringNA.repositories.OrderItemRepository;
 import com.nullcorporation.courseSpringNA.repositories.OrderRepository;
 import com.nullcorporation.courseSpringNA.repositories.ProductRepository;
 import com.nullcorporation.courseSpringNA.repositories.UserRepository;
-
+//
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
